@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=${GROQ_MODEL:-llama-3.1-70b-versatile}
+    volumes:
+      - ./charts:/app/charts
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    restart: unless-stopped
+
