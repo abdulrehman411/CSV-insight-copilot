@@ -30,8 +30,9 @@ A lightweight analytics copilot for instant exploratory data analysis (EDA) usin
 ## Prerequisites
 
 - Python 3.11+
-- Node.js 18+ (for frontend)
-- Groq API Key ([Get one here](https://console.groq.com/))
+- Node.js 18+ (for frontend development)
+- Groq API Key ([Get one free here](https://console.groq.com/))
+- Docker & Docker Compose (optional, for containerized deployment)
 
 ## Installation
 
@@ -39,8 +40,8 @@ A lightweight analytics copilot for instant exploratory data analysis (EDA) usin
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd CSV-Insight-Copilot
+git clone https://github.com/abdulrehman411/CSV-insight-copilot.git
+cd CSV-insight-copilot
 ```
 
 2. Create a virtual environment:
@@ -54,10 +55,17 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file in the root directory:
+4. Create a `.env` file in the root directory (copy from `.env.example`):
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and add your Groq API key:
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 GROQ_MODEL=llama-3.1-70b-versatile
+API_HOST=0.0.0.0
+API_PORT=8000
 ```
 
 ### Frontend Setup
@@ -65,9 +73,14 @@ GROQ_MODEL=llama-3.1-70b-versatile
 1. Navigate to the frontend directory:
 ```bash
 cd frontend
+3. Create a `.env` file (optional, copy from `.env.example`):
+```bash
+cp .env.example .env
 ```
 
-2. Install dependencies:
+Edit if needed:
+```env
+VITE_API_URL=http://localhost:8000
 ```bash
 npm install
 ```
@@ -148,10 +161,45 @@ csv-insight-copilot/
 │       ├── pages/      # Page components
 │       └── api/        # API client
 ├── charts/             # Generated charts
+├── .env.example        # Environment template
 └── requirements.txt    # Python dependencies
 ```
 
 ## Limitations
+
+- Maximum file size: 2MB
+- Maximum columns: 20
+- Single CSV file upload only
+- No persistent storage (analysis results are not saved)
+
+## Security
+
+- **Environment Variables**: Never commit `.env` files to version control
+- **API Keys**: Store your Groq API key securely in `.env` file
+- **Templates**: Use `.env.example` files as templates for configuration
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+MIT License
+
+## Author
+
+**Abdul Rehman** - [GitHub](https://github.com/abdulrehman411)
+
+## Acknowledgments
+
+- Powered by [Groq](https://groq.com/) for fast LLM inference
+- Built with [FastAPI](https://fastapi.tiangolo.com/) and [React](https://react.dev/)
 
 - Maximum file size: 2MB
 - Maximum columns: 20
